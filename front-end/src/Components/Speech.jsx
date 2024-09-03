@@ -12,13 +12,16 @@ function Speech() {
     setIsListening(true);
 
     try {
-      const response = await fetch(`http://127.0.0.1:5000/speech_to_text`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ language }),
-      });
+      const response = await fetch(
+        `https://transcribe-n6v3.vercel.app/speech_to_text`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ language }),
+        }
+      );
 
       const data = await response.json();
       setTranscription(data.transcription);
