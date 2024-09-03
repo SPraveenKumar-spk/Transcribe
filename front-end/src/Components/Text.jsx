@@ -2,8 +2,7 @@ import React, { useState } from "react";
 import NavBar from "./NavBar";
 import Footer from "./Footer";
 
-function TextToSpeech() {
-  const [language, setLanguage] = useState("en");
+function Text() {
   const [text, setText] = useState("");
 
   const handleSubmit = async (e) => {
@@ -77,4 +76,4 @@ function TextToSpeech() {
   );
 }
 
-export default TextToSpeech;
+export default Text;

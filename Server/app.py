@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 import speech
 from gtts import gTTS
@@ -10,7 +10,7 @@ app = Flask(__name__)
 CORS(app)
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return "Welcome to Transcribe"
 
 @app.route('/speech_to_text', methods=['POST'])
 def speech_to_text():
