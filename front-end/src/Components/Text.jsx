@@ -8,7 +8,7 @@ function Text() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await fetch("https://transcribe-n6v3.vercel.app/text-to-speech", {
+      await fetch("https://transcribe-n6v3.vercel.app/text", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
