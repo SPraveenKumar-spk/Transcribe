@@ -12,7 +12,7 @@ function Speech() {
     setIsListening(true);
 
     try {
-      const response = await fetch(`http://127.0.0.1:5000/speech`, {
+      const response = await fetch(`https://transcribe-n6v3.vercel.app/speech`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
