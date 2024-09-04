@@ -13,7 +13,7 @@ function Speech() {
 
     try {
       const response = await fetch(
-        `https://transcribe-n6v3.vercel.app/speech_to_text`,
+        `https://transcribe-n6v3.vercel.app/speech`,
         {
           method: "POST",
           headers: {
