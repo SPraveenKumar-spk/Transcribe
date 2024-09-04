@@ -12,15 +12,14 @@ CORS(app)
 def index():
     return "Welcome to Transcribe"
 
-@app.route('/speech_to_text', methods=['POST'])
+@app.route('/speech', methods=['POST'])
 def speech_to_text():
     selected_language = request.json.get('language')
     transcription = speech.transcribe_realtime(selected_language)
     return jsonify({'transcription': transcription})
 
-@app.route('/text-to-speech', methods=['POST'])
+@app.route('/text', methods=['POST'])
 def text_to_speech_route():
- 
     text = request.json.get('text')
     tts = gTTS(text)
     play_audio_directly(tts)
