@@ -1,7 +1,6 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file
 from flask_cors import CORS
 from gtts import gTTS
-import pygame
 import io
 import speech_recognition as sr
 
@@ -54,7 +53,7 @@ def index():
 
 @app.route('/speech', methods=['POST'])
 def speech_to_text():
-    selected_language = request.json.get('language', 'en-US')  # Default to 'en-US' if not provided
+    selected_language = request.json.get('language', 'en-US')  
     transcription = transcribe_realtime(selected_language)
     return jsonify({'transcription': transcription})
 
@@ -62,21 +61,11 @@ def speech_to_text():
 def text_to_speech_route():
     text = request.json.get('text')
     tts = gTTS(text)
-    play_audio_directly(tts)
-    return jsonify({'message': 'Text converted to speech and played successfully'})
-
-def play_audio_directly(tts):
     audio_data = io.BytesIO()
     tts.write_to_fp(audio_data)
     audio_data.seek(0)
 
-    pygame.mixer.init()
-    pygame.mixer.music.load(audio_data)
-    pygame.mixer.music.play()
-
-    clock = pygame.time.Clock()
-    while pygame.mixer.music.get_busy():
-        clock.tick(30)
+    return send_file(audio_data, mimetype="audio/mp3", as_attachment=True, download_name="speech.mp3")
 
 if __name__ == "__main__":
     app.run(debug=True)
