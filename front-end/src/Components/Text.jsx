@@ -4,18 +4,27 @@ import Footer from "./Footer";
 
 function Text() {
   const [text, setText] = useState("");
+  const [audioUrl, setAudioUrl] = useState(null);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await fetch("http://127.0.0.1:5000/text", {
+      const response = await fetch("https://transcribe-n6v3.vercel.app/text", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ text }),
       });
-      alert("Text converted to speech and played successfully!");
+
+      if (response.ok) {
+        const blob = await response.blob();
+        const url = URL.createObjectURL(blob);
+        setAudioUrl(url);
+        alert("Text converted to speech successfully!");
+      } else {
+        console.error("Failed to convert text to speech");
+      }
     } catch (error) {
       console.error("Error in converting text to speech:", error);
     }
@@ -46,29 +55,29 @@ function Text() {
                 required
               ></textarea>
             </div>
-            {/* <div className="mb-3">
-              <label htmlFor="language" className="form-label">
-                Select language:
-              </label>
-              <select
-                className="form-select"
-                id="language"
-                value={language}
-                onChange={(e) => setLanguage(e.target.value)}
-              >
-                <option value="en">English (en)</option>
-                <option value="hi">Hindi (hi)</option>
-                <option value="bn">Bengali (bn)</option>
-                <option value="ta">Tamil (ta)</option>
-                <option value="te">Telugu (te)</option>
-              </select>
-            </div> */}
             <div className="text-center p-4">
               <button type="submit" className="btn btn-primary">
                 Convert to Speech
               </button>
             </div>
           </form>
+
+          {audioUrl && (
+            <div className="text-center mt-4">
+              <audio controls src={audioUrl} className="mb-3">
+                Your browser does not support the audio element.
+              </audio>
+              <div>
+                <a
+                  href={audioUrl}
+                  download="speech.mp3"
+                  className="btn btn-secondary"
+                >
+                  Download Speech
+                </a>
+              </div>
+            </div>
+          )}
         </div>
       </div>
       <Footer />
